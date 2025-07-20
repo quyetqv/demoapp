@@ -19,6 +19,6 @@ class OrderSeeder extends Seeder
             User::factory()->create();
         }
 
-        Order::factory()->count(20)->create(); // Tạo 20 đơn hàng mẫu
+        Order::factory()->count(200)->create(); // Tạo 20 đơn hàng mẫu
     }
 }

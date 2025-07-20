@@ -10,36 +10,26 @@ use App\Models\Product;
 
 class ReviewSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Đảm bảo có user và product trước khi tạo review
         if (User::count() === 0) {
             User::factory()->create();
         }
         if (Product::count() === 0) {
-            Product::factory()->create(); // Tạo ít nhất một sản phẩm nếu chưa có
+            Product::factory()->create();
         }
 
         $users = User::all();
         $products = Product::all();
 
-        // Số lượng đánh giá mong muốn
-        $numberOfReviews = 30;
+        $numberOfReviews = 500; // Tăng số lượng đánh giá lên 500
         $createdReviewsCount = 0;
-
-        // Giới hạn vòng lặp để tránh vòng lặp vô hạn nếu số lượng kết hợp user/product ít hơn số lượng mong muốn
-        $maxAttempts = $numberOfReviews * 5; // Ví dụ: thử tối đa 5 lần cho mỗi review mong muốn
+        $maxAttempts = $numberOfReviews * 5;
 
         while ($createdReviewsCount < $numberOfReviews && $maxAttempts > 0) {
             $user = $users->random();
             $product = $products->random();
 
-            // Cố gắng tạo một đánh giá mới.
-            // Nếu cặp user_id và product_id đã tồn tại, nó sẽ không tạo và trả về null (hoặc false tùy Laravel version)
-            // hoặc object đã tồn tại nếu dùng firstOrCreate.
             try {
                 Review::create([
                     'user_id' => $user->id,
@@ -49,12 +39,9 @@ class ReviewSeeder extends Seeder
                 ]);
                 $createdReviewsCount++;
             } catch (\Illuminate\Database\QueryException $e) {
-                // Lỗi 1062 là lỗi trùng lặp key duy nhất
                 if ($e->getCode() == 23000 || str_contains($e->getMessage(), 'Duplicate entry')) {
-                    // Cặp đã tồn tại, thử lại với cặp user/product khác
-                    // echo "Duplicate found for user {$user->id} and product {$product->id}. Trying again...\n";
+                    // Duplicate found, try again
                 } else {
-                    // Xử lý các lỗi khác nếu có
                     throw $e;
                 }
             }

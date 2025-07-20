@@ -23,6 +23,6 @@ class OrderItemSeeder extends Seeder
             $this->call(ProductSeeder::class); // Gọi ProductSeeder nếu chưa có product
         }
 
-        OrderItem::factory()->count(50)->create(); // Tạo 50 chi tiết đơn hàng mẫu
+        OrderItem::factory()->count(1000)->create(); // Tạo 50 chi tiết đơn hàng mẫu
     }
 }

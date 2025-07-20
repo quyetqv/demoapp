@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product:slug}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
+
+Route::get('/complex-queries', [App\Http\Controllers\TestController::class, 'index'])->name('complex.queries');
 
 require __DIR__.'/auth.php';

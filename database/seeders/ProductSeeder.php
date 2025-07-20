@@ -19,6 +19,6 @@ class ProductSeeder extends Seeder
             Category::factory()->create();
         }
 
-        Product::factory()->count(50)->create(); // Tạo 50 sản phẩm mẫu
+        Product::factory()->count(500)->create(); // Tạo 50 sản phẩm mẫu
     }
 }
